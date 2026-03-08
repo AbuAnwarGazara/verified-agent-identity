@@ -1,0 +1,56 @@
+name: Verify Human Identity
+
+on:
+  workflow_dispatch:
+    inputs:
+      agent_name:
+        description: "AbuAnwarGazara"
+        required: true
+        default: "AbuAnwarGazara"
+      agent_description:
+        description: "AbuAnwarGazara"
+        required: true
+        default: "AbuAnwarGazara AI Agent"
+
+jobs:
+  verify:
+    name: Billions Agent Verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      AbuAnwarGazara: ${{ github.event.inputs.AbuAnwarGazara }}
+      AGENT_DESCRIPTION: ${{ github.event.inputs.AbuAnwarGazara }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Verify scripts directory
+        run: |
+          if [ ! -d "scripts" ]; then
+            echo "❌ scripts directory not found"
+            exit 1
+          fi
+
+      - name: Install ClawHub verified-agent skill
+        run: npx clawhub@latest install verified-agent-identity
+
+      - name: Install dependencies
+        working-directory: scripts
+        run: npm ci
+
+      - name: Create Ethereum Identity
+        run: node scripts/createNewEthereumIdentity.js
+
+      - name: Link Human to Agent
+        run: |
+          node scripts/manualLinkHumanToAgent.js \
+          --challenge "{\"name\":\"AbuAnwarGazara\",\"description\":\"$AGENT_DESCRIPTION\AbuAnwarGazara Ai Agent"}"
