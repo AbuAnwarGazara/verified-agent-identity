@@ -53,7 +53,4 @@ jobs:
       - name: Link Human to Agent
         run: |
           node scripts/manualLinkHumanToAgent.js \
-          --challenge "{\"name\":\"$AbuAnwarGazara\",\"description\":\"$AGENT_DESCRIPTION\AbuAnwarGazara"}"
-
-      - name: Verification completed
-        run: echo "✅ Billions Network agent verification completed successfully."
+          --challenge "{\"name\":\"$AbuAnwarGazara\",\"description\":\"$AGENT_DESCRIPTION\AbuAnwarGazara Ai Agent"}"
