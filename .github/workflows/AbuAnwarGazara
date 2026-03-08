@@ -9,7 +9,7 @@ on:
         default: "AbuAnwarGazara"
       agent_description:
         description: "AbuAnwarGazara"
-        required: true
+        requiredtrue
         default: "AbuAnwarGazara AI Agent"
 
 jobs:
